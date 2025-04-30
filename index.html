@@ -1,151 +1,916 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MICCAI Workshop – AI in Medical Imaging</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    html {
-      scroll-behavior: smooth;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MICCAI Summer School 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+    <style>
+        :root {
+            --primary-color: #0073b7;
+            --secondary-color: #34495e;
+            --accent-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #2c3e50;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: var(--dark-color);
+            overflow-x: hidden;
+            background-color: #f5f7fa;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        .header-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .header-title p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            padding: 1rem;
+        }
+
+        .nav-links a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--secondary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url('/api/placeholder/1200/600') no-repeat center center/cover;
+            height: 500px;
+            position: relative;
+            color: white;
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #005d9e;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background-color: white;
+            color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Main Content */
+        main {
+            padding: 3rem 0;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            bottom: 0;
+            left: 25%;
+            background-color: var(--primary-color);
+        }
+
+        /* Programme Section */
+        .programme-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .day-schedule {
+            margin-bottom: 2rem;
+        }
+
+        .day-schedule h3 {
+            background-color: var(--light-color);
+            padding: 0.8rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .schedule-item {
+            display: flex;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .schedule-time {
+            min-width: 100px;
+            font-weight: bold;
+        }
+
+        .schedule-details h4 {
+            margin-bottom: 0.3rem;
+        }
+
+        .schedule-details p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Call for Participants */
+        .cta-box {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .cta-box h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .cta-box p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Mentorship Programme */
+        .mentorship-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .mentorship-details,
+        .mentorship-apply {
+            padding: 1.5rem;
+        }
+
+        .mentorship-details h3,
+        .mentorship-apply h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        /* Challenge Section */
+        .challenge-content {
+            text-align: center;
+        }
+
+        .challenge-details {
+            margin-bottom: 2rem;
+        }
+
+        .challenge-cta {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        /* Speaker Materials */
+        .materials-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .material-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .material-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .material-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .material-info {
+            padding: 1rem;
+        }
+
+        .material-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .material-info p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        /* Local Hubs */
+        #map {
+            height: 400px;
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .hubs-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .hub-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .hub-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .hub-card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .hub-card p {
+            margin-bottom: 0.5rem;
+        }
+
+        .hub-card .contact {
+            display: flex;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .hub-card .contact i {
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            height: 200px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Organizers */
+        .organizers-content {
+            text-align: center;
+        }
+
+        .organizers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .organizer-card {
+            text-align: center;
+        }
+
+        .organizer-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--primary-color);
+        }
+
+        .organizer-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .organizer-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .organizer-info p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-info h3 {
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-info h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .footer-info p {
+            margin-bottom: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-title h1 {
+                font-size: 2rem;
+            }
+
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+
+            .mentorship-content,
+            .organizers-content {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        @media (max-width: 576px) {
+            section {
+                padding: 1.5rem;
+            }
+
+            .hero {
+                height: 400px;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .schedule-item {
+                flex-direction: column;
+            }
+
+            .schedule-time {
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
 </head>
-<body class="bg-white text-gray-800 font-sans">
 
-  <!-- Header -->
-  <header class="bg-blue-900 text-white py-6">
-    <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-      <h1 class="text-3xl font-bold">MICCAI Workshop: AI in Medical Imaging</h1>
-      <div class="mt-4 md:mt-0">
-        <label for="year" class="mr-2">Edition:</label>
-        <select id="year" class="text-black rounded px-2 py-1" onchange="changeYear(this.value)">
-          <option value="2025" selected>2025</option>
-          <option value="2024">2024</option>
-          <option value="2023">2023</option>
-        </select>
-      </div>
-    </div>
-  </header>
+<body>
+    <header>
+        <div class="container header-content">
+            <img src="/api/placeholder/120/120" alt="MICCAI Summer School Logo" class="logo">
+            <div class="header-title">
+                <h1>MICCAI Summer School 2025</h1>
+                <p>Advancing Medical Image Computing and Computer Assisted Intervention</p>
+            </div>
+        </div>
+    </header>
 
-  <!-- Navigation -->
-  <nav class="bg-gray-100 sticky top-0 shadow z-10">
-    <div class="container mx-auto px-4 py-3 flex space-x-4 text-sm font-semibold">
-      <a href="#overview" class="hover:text-blue-600">Overview</a>
-      <a href="#cfp" class="hover:text-blue-600">Call for Papers</a>
-      <a href="#speakers" class="hover:text-blue-600">Speakers</a>
-      <a href="#schedule" class="hover:text-blue-600">Schedule</a>
-      <a href="#registration" class="hover:text-blue-600">Registration</a>
-      <a href="#past" class="hover:text-blue-600">Past Editions</a>
-      <a href="#contact" class="hover:text-blue-600">Contact</a>
-    </div>
-  </nav>
+    <nav>
+        <div class="container nav-container">
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <li><a href="#programme">Programme</a></li>
+                <li><a href="#participants">Call for Participants</a></li>
+                <li><a href="#mentorship">Mentorship</a></li>
+                <li><a href="#challenge">Challenge</a></li>
+                <li><a href="#materials">Speaker Materials</a></li>
+                <li><a href="#hubs">Local Hubs</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#organizers">Organizers</a></li>
+            </ul>
+        </div>
+    </nav>
 
-  <!-- Main Content -->
-  <main class="container mx-auto px-4 py-10 space-y-20">
-    
-    <!-- Overview -->
-    <section id="overview">
-      <h2 class="text-2xl font-bold mb-4">Overview</h2>
-      <p>
-        Welcome to the 2025 edition of the MICCAI Workshop on AI in Medical Imaging! This event brings together
-        researchers and practitioners at the intersection of artificial intelligence, medical image analysis,
-        and clinical applications.
-      </p>
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Join the MICCAI Summer School 2025</h2>
+            <p>Expand your knowledge, connect with experts, and advance your career in medical imaging and intervention</p>
+            <div>
+                <a href="#participants" class="btn btn-primary">Register Now</a>
+                <a href="#programme" class="btn btn-secondary">View Programme</a>
+            </div>
+        </div>
     </section>
 
-    <!-- Call for Papers -->
-    <section id="cfp">
-      <h2 class="text-2xl font-bold mb-4">Call for Papers</h2>
-      <p>
-        We invite high-quality submissions on topics including (but not limited to): deep learning for image
-        segmentation, registration, reconstruction, and explainability in medical AI.
-      </p>
-      <ul class="list-disc ml-6 mt-2">
-        <li>Submission Deadline: July 15, 2025</li>
-        <li>Notification: August 10, 2025</li>
-        <li>Workshop Date: October 8, 2025</li>
-      </ul>
-    </section>
+    <main class="container">
+        <section id="programme">
+            <div class="section-header">
+                <h2>Programme</h2>
+            </div>
+            <div class="programme-content">
+                <div class="day-schedule">
+                    <h3>Day 1: Introduction and Fundamentals</h3>
+                    <div class="schedule-item">
+                        <div class="schedule-time">09:00 - 10:30</div>
+                        <div class="schedule-details">
+                            <h4>Opening Ceremony & Introduction to MICCAI</h4>
+                            <p>Welcoming remarks and overview of the summer school program</p>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">10:45 - 12:15</div>
+                        <div class="schedule-details">
+                            <h4>Fundamentals of Medical Image Computing</h4>
+                            <p>Core concepts and recent advances in the field</p>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">13:30 - 15:00</div>
+                        <div class="schedule-details">
+                            <h4>Hands-on Session: Image Processing Techniques</h4>
+                            <p>Practical workshop on essential image processing methods</p>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">15:15 - 16:45</div>
+                        <div class="schedule-details">
+                            <h4>Deep Learning for Medical Imaging</h4>
+                            <p>Introduction to neural networks and deep learning applications</p>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Speakers -->
-    <section id="speakers">
-      <h2 class="text-2xl font-bold mb-4">Invited Speakers</h2>
-      <ul class="grid md:grid-cols-2 gap-4">
-        <li><strong>Dr. Jane Smith</strong>, Stanford University</li>
-        <li><strong>Prof. John Doe</strong>, ETH Zurich</li>
-        <li><strong>Dr. Lina Wang</strong>, MIT CSAIL</li>
-        <li><strong>Prof. Michael Nguyen</strong>, Imperial College London</li>
-      </ul>
-    </section>
+                <div class="day-schedule">
+                    <h3>Day 2: Advanced Topics and Applications</h3>
+                    <div class="schedule-item">
+                        <div class="schedule-time">09:00 - 10:30</div>
+                        <div class="schedule-details">
+                            <h4>Computer-Assisted Interventions</h4>
+                            <p>Latest developments in surgical navigation and robotics</p>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">10:45 - 12:15</div>
+                        <div class="schedule-details">
+                            <h4>Hands-on Session: Deep Learning Models</h4>
+                            <p>Building and training models for medical image analysis</p>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">13:30 - 15:00</div>
+                        <div class="schedule-details">
+                            <h4>Medical Image Segmentation Challenge</h4>
+                            <p>Introduction to the challenge and team formation</p>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">15:15 - 16:45</div>
+                        <div class="schedule-details">
+                            <h4>Mentorship Session</h4>
+                            <p>Small group discussions with field experts</p>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Schedule -->
-    <section id="schedule">
-      <h2 class="text-2xl font-bold mb-4">Schedule</h2>
-      <table class="w-full table-auto border-collapse border border-gray-300 text-sm">
-        <thead class="bg-gray-200">
-          <tr>
-            <th class="border p-2">Time</th>
-            <th class="border p-2">Session</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="border p-2">09:00 – 09:30</td>
-            <td class="border p-2">Welcome & Opening Remarks</td>
-          </tr>
-          <tr>
-            <td class="border p-2">09:30 – 11:00</td>
-            <td class="border p-2">Invited Talks</td>
-          </tr>
-          <tr>
-            <td class="border p-2">11:00 – 12:30</td>
-            <td class="border p-2">Paper Presentations</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+                <div class="day-schedule">
+                    <h3>Day 3: Research and Future Directions</h3>
+                    <div class="schedule-item">
+                        <div class="schedule-time">09:00 - 10:30</div>
+                        <div class="schedule-details">
+                            <h4>Current Research Trends</h4>
+                            <p>Panel discussion on emerging research directions</p>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">10:45 - 12:15</div>
+                        <div class="schedule-details">
+                            <h4>Challenge Working Session</h4>
+                            <p>Teams work on challenge solutions with mentor support</p>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">13:30 - 15:00</div>
+                        <div class="schedule-details">
+                            <h4>Challenge Presentations</h4>
+                            <p>Teams present their solutions and receive feedback</p>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-time">15:15 - 16:45</div>
+                        <div class="schedule-details">
+                            <h4>Closing Ceremony & Networking</h4>
+                            <p>Awards, closing remarks, and networking session</p>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Registration -->
-    <section id="registration">
-      <h2 class="text-2xl font-bold mb-4">Registration</h2>
-      <p>
-        Registration is handled via the main MICCAI 2025 conference portal. Please select our workshop when
-        registering.
-      </p>
-      <a href="https://www.miccai2025.org/" class="text-blue-600 underline" target="_blank">Go to MICCAI 2025</a>
-    </section>
+                <p class="text-center"><em>Note: This is a preliminary programme and subject to changes.</em></p>
+            </div>
+        </section>
 
-    <!-- Past Editions -->
-    <section id="past">
-      <h2 class="text-2xl font-bold mb-4">Past Editions</h2>
-      <ul class="list-disc ml-6">
-        <li><a href="https://your-url.com/2024" class="text-blue-600 underline">2024 Workshop</a></li>
-        <li><a href="https://your-url.com/2023" class="text-blue-600 underline">2023 Workshop</a></li>
-      </ul>
-    </section>
+        <section id="participants">
+            <div class="section-header">
+                <h2>Call for Participants</h2>
+            </div>
+            <div class="cta-box">
+                <h3>Join Us at MICCAI Summer School 2025</h3>
+                <p>We invite students, researchers, and professionals interested in medical image computing and computer-assisted interventions to apply. The summer school offers a unique opportunity to learn from leading experts in the field, participate in hands-on sessions, and network with peers from around the world.</p>
+                <p>Applications are open until [Application Deadline].</p>
+                <a href="https://forms.google.com/placeholder-registration-link" target="_blank" class="btn btn-primary">Register Now</a>
+            </div>
+        </section>
 
-    <!-- Contact -->
-    <section id="contact">
-      <h2 class="text-2xl font-bold mb-4">Contact</h2>
-      <p>
-        For questions, please contact the organizing committee at <a href="mailto:ai-medical@workshop.org"
-        class="text-blue-600 underline">ai-medical@workshop.org</a>.
-      </p>
-    </section>
-  </main>
+        <section id="mentorship">
+            <div class="section-header">
+                <h2>Mentorship Programme</h2>
+            </div>
+            <div class="mentorship-content">
+                <div class="mentorship-details">
+                    <h3>About the Mentorship</h3>
+                    <p>Our mentorship program pairs early-career researchers with experienced professionals in the field of medical imaging and computer-assisted interventions. Mentors provide guidance, career advice, and research direction to help mentees navigate their academic and professional journeys.</p>
+                    <p>Benefits include:</p>
+                    <ul>
+                        <li>One-on-one guidance from experts in your specific area of interest</li>
+                        <li>Networking opportunities with leading researchers</li>
+                        <li>Research collaboration possibilities</li>
+                        <li>Career development advice</li>
+                    </ul>
+                </div>
+                <div class="mentorship-apply">
+                    <h3>Apply for Mentorship</h3>
+                    <p>We welcome applications from PhD students and early-career researchers who are looking for guidance in their research and career development.</p>
+                    <p>Mentorship matches will be made based on research interests and career goals.</p>
+                    <p>Applications are open until [Mentorship Application Deadline].</p>
+                    <a href="https://forms.google.com/placeholder-mentorship-application" target="_blank" class="btn btn-primary">Apply Now</a>
+                </div>
+            </div>
+        </section>
 
-  <!-- Footer -->
-  <footer class="bg-gray-100 text-center text-sm py-6 mt-10 text-gray-600">
-    © 2025 MICCAI Workshop on AI in Medical Imaging · Built with ❤️ for the academic community
-  </footer>
+        <section id="challenge">
+            <div class="section-header">
+                <h2>Challenge</h2>
+            </div>
+            <div class="challenge-content">
+                <div class="challenge-details">
+                    <h3>MICCAI Summer School Challenge 2025</h3>
+                    <p>Participate in our exciting medical image analysis challenge! Teams will work on solving a real-world problem in medical imaging using state-of-the-art techniques. The challenge provides an opportunity to apply what you learn during the summer school and compete with peers from around the globe.</p>
+                    <p>Challenge details:</p>
+                    <ul>
+                        <li>Problem statement will be announced during the summer school</li>
+                        <li>Teams of 3-5 participants</li>
+                        <li>Access to datasets and computational resources</li>
+                        <li>Mentorship support throughout the challenge</li>
+                        <li>Prizes for top-performing teams</li>
+                    </ul>
+                </div>
+                <div class="challenge-cta">
+                    <h4>Ready to test your skills?</h4>
+                    <p>Challenge registration will open after participant selection.</p>
+                    <a href="#" class="btn btn-primary">Challenge Details Coming Soon</a>
+                </div>
+            </div>
+        </section>
 
-  <script>
-    function changeYear(year) {
-      if (year !== "2025") {
-        window.location.href = `https://your-url.com/${year}`;
-      }
-    }
-  </script>
-</body>
-</html>
+        <section id="materials">
+            <div class="section-header">
+                <h2>Speaker Materials</h2>
+            </div>
+            <div class="materials-content">
+                <p class="text-center" style="grid-column: 1 / -1;">Speaker materials will be available here prior to the Summer School.</p>
+                
+                <!-- Placeholder for materials - will be populated before the event -->
+                <div class="material-card">
+                    <img src="/api/placeholder/300/150" alt="Lecture Materials">
+                    <div class="material-info">
+                        <h3>Introduction to Medical Imaging</h3>
+                        <p>By Prof. [Speaker Name]</p>
+                        <a href="#" class="btn btn-primary">Coming Soon</a>
+                    </div>
+                </div>
+                <div class="material-card">
+                    <img src="/api/placeholder/300/150" alt="Workshop Materials">
+                    <div class="material-info">
+                        <h3>Deep Learning Workshop</h3>
+                        <p>By Dr. [Speaker Name]</p>
+                        <a href="#" class="btn btn-primary">Coming Soon</a>
+                    </div>
+                </div>
+                <div class="material-card">
+                    <img src="/api/placeholder/300/150" alt="Tutorial Materials">
+                    <div class="material-info">
+                        <h3>Image Segmentation Tutorial</h3>
+                        <p>By Prof. [Speaker Name]</p>
+                        <a href="#" class="btn btn-primary">Coming Soon</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="hubs">
+            <div class="section-header">
+                <h2>Local Hubs</h2>
+            </div>
+            <div id="map"></div>
+            <div class="hubs-list">
+                <div class="hub-card">
+                    <h3>London Hub</h3>
+                    <p>Imperial College London</p>
+                    <p>South Kensington Campus</p>
+                    <p>London, UK</p>
+                    <div class="contact">
+                        <i class="fas fa-user"></i>
+                        <span>Contact: Dr. Jane Smith</span>
+                    </div>
+                    <div class="contact">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email: london.hub@miccai.org</span>
+                    </div>
+                </div>
+                <div class="hub-card">
+                    <h3>Boston Hub</h3>
+                    <p>Harvard Medical School</p>
+                    <p>Longwood Medical Area</p>
+                    <p>Boston, USA</p>
+                    <div class="contact">
+                        <i class="fas fa-user"></i>
+                        <span>Contact: Prof. John Doe</span>
+                    </div>
+                    <div class="contact">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email: boston.hub@miccai.org</span>
+                    </div>
+                </div>
+                <div class="hub-card">
+                    <h3>Tokyo Hub</h3>
+                    <p>University of Tokyo</p>
+                    <p>Hongo Campus</p>
+                    <p>Tokyo, Japan</p>
+                    <div class="contact">
+                        <i class="fas fa-user"></i>
+                        <span>Contact: Dr. Akira Tanaka</span>
+                    </div>
+                    <div class="contact">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email: tokyo.hub@miccai.org</span>
+                    </div>
+                </div>
+                <div class="hub-card">
+                    <h3>Munich Hub</h3>
+                    <p>Technical University of Munich</p>
+                    <p>Main Campus</p>
+                    <p>Munich, Germany</p>
+                    <div class="contact">
+                        <i class="fas fa-user"></i>
+                        <span>Contact: Prof.
