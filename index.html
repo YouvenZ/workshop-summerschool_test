@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MICCAI Workshop – AI in Medical Imaging</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+
+  <!-- Header -->
+  <header class="bg-blue-900 text-white py-6">
+    <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+      <h1 class="text-3xl font-bold">MICCAI Workshop: AI in Medical Imaging</h1>
+      <div class="mt-4 md:mt-0">
+        <label for="year" class="mr-2">Edition:</label>
+        <select id="year" class="text-black rounded px-2 py-1" onchange="changeYear(this.value)">
+          <option value="2025" selected>2025</option>
+          <option value="2024">2024</option>
+          <option value="2023">2023</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="bg-gray-100 sticky top-0 shadow z-10">
+    <div class="container mx-auto px-4 py-3 flex space-x-4 text-sm font-semibold">
+      <a href="#overview" class="hover:text-blue-600">Overview</a>
+      <a href="#cfp" class="hover:text-blue-600">Call for Papers</a>
+      <a href="#speakers" class="hover:text-blue-600">Speakers</a>
+      <a href="#schedule" class="hover:text-blue-600">Schedule</a>
+      <a href="#registration" class="hover:text-blue-600">Registration</a>
+      <a href="#past" class="hover:text-blue-600">Past Editions</a>
+      <a href="#contact" class="hover:text-blue-600">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-10 space-y-20">
+    
+    <!-- Overview -->
+    <section id="overview">
+      <h2 class="text-2xl font-bold mb-4">Overview</h2>
+      <p>
+        Welcome to the 2025 edition of the MICCAI Workshop on AI in Medical Imaging! This event brings together
+        researchers and practitioners at the intersection of artificial intelligence, medical image analysis,
+        and clinical applications.
+      </p>
+    </section>
+
+    <!-- Call for Papers -->
+    <section id="cfp">
+      <h2 class="text-2xl font-bold mb-4">Call for Papers</h2>
+      <p>
+        We invite high-quality submissions on topics including (but not limited to): deep learning for image
+        segmentation, registration, reconstruction, and explainability in medical AI.
+      </p>
+      <ul class="list-disc ml-6 mt-2">
+        <li>Submission Deadline: July 15, 2025</li>
+        <li>Notification: August 10, 2025</li>
+        <li>Workshop Date: October 8, 2025</li>
+      </ul>
+    </section>
+
+    <!-- Speakers -->
+    <section id="speakers">
+      <h2 class="text-2xl font-bold mb-4">Invited Speakers</h2>
+      <ul class="grid md:grid-cols-2 gap-4">
+        <li><strong>Dr. Jane Smith</strong>, Stanford University</li>
+        <li><strong>Prof. John Doe</strong>, ETH Zurich</li>
+        <li><strong>Dr. Lina Wang</strong>, MIT CSAIL</li>
+        <li><strong>Prof. Michael Nguyen</strong>, Imperial College London</li>
+      </ul>
+    </section>
+
+    <!-- Schedule -->
+    <section id="schedule">
+      <h2 class="text-2xl font-bold mb-4">Schedule</h2>
+      <table class="w-full table-auto border-collapse border border-gray-300 text-sm">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="border p-2">Time</th>
+            <th class="border p-2">Session</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border p-2">09:00 – 09:30</td>
+            <td class="border p-2">Welcome & Opening Remarks</td>
+          </tr>
+          <tr>
+            <td class="border p-2">09:30 – 11:00</td>
+            <td class="border p-2">Invited Talks</td>
+          </tr>
+          <tr>
+            <td class="border p-2">11:00 – 12:30</td>
+            <td class="border p-2">Paper Presentations</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Registration -->
+    <section id="registration">
+      <h2 class="text-2xl font-bold mb-4">Registration</h2>
+      <p>
+        Registration is handled via the main MICCAI 2025 conference portal. Please select our workshop when
+        registering.
+      </p>
+      <a href="https://www.miccai2025.org/" class="text-blue-600 underline" target="_blank">Go to MICCAI 2025</a>
+    </section>
+
+    <!-- Past Editions -->
+    <section id="past">
+      <h2 class="text-2xl font-bold mb-4">Past Editions</h2>
+      <ul class="list-disc ml-6">
+        <li><a href="https://your-url.com/2024" class="text-blue-600 underline">2024 Workshop</a></li>
+        <li><a href="https://your-url.com/2023" class="text-blue-600 underline">2023 Workshop</a></li>
+      </ul>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <h2 class="text-2xl font-bold mb-4">Contact</h2>
+      <p>
+        For questions, please contact the organizing committee at <a href="mailto:ai-medical@workshop.org"
+        class="text-blue-600 underline">ai-medical@workshop.org</a>.
+      </p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 text-center text-sm py-6 mt-10 text-gray-600">
+    © 2025 MICCAI Workshop on AI in Medical Imaging · Built with ❤️ for the academic community
+  </footer>
+
+  <script>
+    function changeYear(year) {
+      if (year !== "2025") {
+        window.location.href = `https://your-url.com/${year}`;
+      }
+    }
+  </script>
+</body>
+</html>
